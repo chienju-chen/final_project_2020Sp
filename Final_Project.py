@@ -405,3 +405,6 @@ ax.scatter(x, y)
 
 for i, txt in enumerate(c):
     ax.annotate(txt, (x[i], y[i]))
+
+plt.xlabel('Population Density')
+plt.ylabel('Severity Degree')
