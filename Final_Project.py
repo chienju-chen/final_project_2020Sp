@@ -321,7 +321,7 @@ for key in multi_google_trends_dict:
 
 # plt.bar(aware_period_in_days.keys(), aware_period_in_days.values())
 
-# Severity Degree & Hypothesis_2
+# Severity Degree
 def popul_density_target_country(filename, country_list_popul):
     popul_density = pd.read_csv(filename)
     popul_target = popul_density[popul_density['Country (or dependency)'].isin(country_dict_popul.values())]
@@ -354,7 +354,10 @@ severity_dict = df_severity.set_index('Country Code')['Severity'].to_dict()
 # pandas.DataFrame.to_dict: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_dict.html
 # set_index: https://stackoverflow.com/questions/52547805/how-to-convert-dataframe-to-dictionary-in-pandas-without-index
 
+# Severity Degree
 # plt.bar(aware_period_in_days.keys(), severity_dict.values())
+
+# Awareness Gap Days
 # plt.bar(aware_period_in_days.keys(), aware_period_in_days.values())
 
 dict_for_hist_plot = {}
@@ -362,20 +365,29 @@ for i in aware_period_in_days.keys():
     dict_for_hist_plot[i] = (aware_period_in_days[i], severity_dict[i])
 
 df_for_plot = pd.DataFrame(dict_for_hist_plot).transpose()
-df_for_plot.columns = ['Awareness (Days)', 'Severity']
+df_for_plot.columns = ['Awareness', 'Severity']
 
 # Reference of Double y-axis:
 # https://stackoverflow.com/questions/24183101/pandas-bar-plot-with-two-bars-and-two-y-axis
+# https://stackoverflow.com/questions/9103166/multiple-axis-in-matplotlib-with-different-scales
 
-comparing_plot = df_for_plot.plot.bar()
-comparing_plot_2 = comparing_plot.twinx()
-comparing_plot.set_title('COVID-19 Awareness vs Severity')
-comparing_plot.set_xlabel('Country')
-comparing_plot.set_ylabel('Severity Degree')
-comparing_plot_2.set_ylabel('Days')
+fig = plt.figure() # Create matplotlib figure
 
+ax = fig.add_subplot() # Create matplotlib axes
+ax2 = ax.twinx() # Create another axes that shares the same x-axis as ax.
+
+ax.set_ylim(0, 60)
+ax2.set_ylim(0, 5000)
+width = 0.3
+
+plot_aw = df_for_plot.Awareness.plot(kind = 'bar', color = 'orange', ax = ax, width = width, position = 1)
+plot_se = df_for_plot.Severity.plot(kind = 'bar', color = 'blue', ax = ax2, width = width, position = 0)
+
+ax.set_ylabel('Awareness Gap Days')
+ax2.set_ylabel('Severity Degree')
+
+fig.legend(loc = 'upper center')
+# ax.legend()
+# ax2.legend()
 plt.show()
 
-
-# Hypothesis.2
-popul_density_with_c.plot.scatter(x = 'Density (P/Km?)', y = 'Severity')
