@@ -245,6 +245,7 @@ def plot_GT_case_trends(popularity, country, local=True):
     color = sns.color_palette("husl", len(label))
 
     # plot the trend of Google Trends queries
+    pd.plotting.register_matplotlib_converters()
     fig, ax1 = plt.subplots(figsize=(25, 10))
     for i in range(len(label)):
         ax1.plot(t, popularity.iloc[:, i], color=color[i], label=label[i], linewidth=3)
@@ -284,9 +285,43 @@ for key in single_google_trends_dict:
     if key != 'US':
         plot_GT_case_trends(popularity, key, local=False)
 
+# Bar Plot for Awareness Gap Days and Severity
+def find_search_peak_date(multi_google_trends_dict, most_popular_keywords_dict):
+    search_peak_dict = {}
+    for key in multi_google_trends_dict:
+        search_peak_dict[key] = multi_google_trends_dict[key][most_popular_keywords_dict[key]].idxmax()
+    return(search_peak_dict)
+    # results of search peak of single_google_trends_dict will be the same.
 
+# If have time... need Modification to automatically get the most popular keywords
+most_popular_keywords_dict = {'TW': 'Wuhan(local)',
+                              'KR': 'Wuhan(local)',
+                              'IT': 'coronavirus(local)',
+                              'ES': 'coronavirus(local)',
+                              'CZ': 'coronavirus(local)',
+                              'US': 'coronavirus',
+                              'PE': 'coronavirus(local)',
+                              'IR': 'coronavirus(local)',
+                              'AU': 'coronavirus(local)',
+                              'ZA': 'coronavirus(local)'}
 
-# Hypothesis_2
+search_peak_dict = find_search_peak_date(multi_google_trends_dict, most_popular_keywords_dict)
+# print(search_peak_dict)
+
+notable_date_dict = {}
+for key in multi_google_trends_dict:
+    notable_date_dict[key] = datetime.strptime(notable_date,'%Y-%m-%d')
+# print(notable_date_dict)
+
+aware_period_in_days = {}
+for key in multi_google_trends_dict:
+    aware_days = datetime.date(notable_date_dict[key]) - datetime.date(search_peak_dict[key])
+    aware_period_in_days[key] = aware_days.days
+# print(aware_period_in_days)
+
+# plt.bar(aware_period_in_days.keys(), aware_period_in_days.values())
+
+# Severity Degree & Hypothesis_2
 def popul_density_target_country(filename, country_list_popul):
     popul_density = pd.read_csv(filename)
     popul_target = popul_density[popul_density['Country (or dependency)'].isin(country_dict_popul.values())]
@@ -303,11 +338,44 @@ popul_density_target = popul_density_target_country(filename, country_dict_popul
 popul_density_target.insert(0, "Country/Region",
                             ["US", "Iran", "Italy", "South Africa", "Korea, South",
                              "Spain", "Peru", "Australia", "Taiwan*", "Czechia"])
-# need modifications: insert by key-value
 
 popul_density_with_c = popul_density_target.merge(confirmed_case_target, left_on = "Country/Region", right_on = "Country/Region")
 
 pandemic_severity = popul_density_with_c['4/24/2020'] / popul_density_with_c['Population (2020)'].div(1000000)
 popul_density_with_c.insert(4, "Severity", round(pandemic_severity, 2))
 
+# Reference of adding Column with Dictionary values:
+# https://cmdlinetips.com/2018/01/how-to-add-a-new-column-to-using-a-dictionary-in-pandas-data-frame/
+
+popul_density_with_c.insert(4, "Country Code", popul_density_with_c["Country/Region"].map(country_dict))
+df_severity = popul_density_with_c[['Country Code', 'Severity']]
+severity_dict = df_severity.set_index('Country Code')['Severity'].to_dict()
+# Reference:
+# pandas.DataFrame.to_dict: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_dict.html
+# set_index: https://stackoverflow.com/questions/52547805/how-to-convert-dataframe-to-dictionary-in-pandas-without-index
+
+# plt.bar(aware_period_in_days.keys(), severity_dict.values())
+# plt.bar(aware_period_in_days.keys(), aware_period_in_days.values())
+
+dict_for_hist_plot = {}
+for i in aware_period_in_days.keys():
+    dict_for_hist_plot[i] = (aware_period_in_days[i], severity_dict[i])
+
+df_for_plot = pd.DataFrame(dict_for_hist_plot).transpose()
+df_for_plot.columns = ['Awareness (Days)', 'Severity']
+
+# Reference of Double y-axis:
+# https://stackoverflow.com/questions/24183101/pandas-bar-plot-with-two-bars-and-two-y-axis
+
+comparing_plot = df_for_plot.plot.bar()
+comparing_plot_2 = comparing_plot.twinx()
+comparing_plot.set_title('COVID-19 Awareness vs Severity')
+comparing_plot.set_xlabel('Country')
+comparing_plot.set_ylabel('Severity Degree')
+comparing_plot_2.set_ylabel('Days')
+
+plt.show()
+
+
+# Hypothesis.2
 popul_density_with_c.plot.scatter(x = 'Density (P/Km?)', y = 'Severity')
