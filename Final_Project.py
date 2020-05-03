@@ -391,3 +391,17 @@ fig.legend(loc = 'upper center')
 # ax2.legend()
 plt.show()
 
+# Hypothesis_2
+
+# Reference of Scatterplot with annotation on each data point:
+# https://stackoverflow.com/questions/14432557/matplotlib-scatter-plot-with-different-text-at-each-data-point
+
+x = list(popul_density_with_c['Density (P/Km?)'])
+y = list(popul_density_with_c['Severity'])
+c = list(popul_density_with_c['Country Code'])
+
+fig, ax = plt.subplots()
+ax.scatter(x, y)
+
+for i, txt in enumerate(c):
+    ax.annotate(txt, (x[i], y[i]))
