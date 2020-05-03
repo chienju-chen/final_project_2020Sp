@@ -371,24 +371,38 @@ df_for_plot.columns = ['Awareness', 'Severity']
 # https://stackoverflow.com/questions/24183101/pandas-bar-plot-with-two-bars-and-two-y-axis
 # https://stackoverflow.com/questions/9103166/multiple-axis-in-matplotlib-with-different-scales
 
-fig = plt.figure() # Create matplotlib figure
+fig = plt.figure()
 
-ax = fig.add_subplot() # Create matplotlib axes
-ax2 = ax.twinx() # Create another axes that shares the same x-axis as ax.
+ax = fig.add_subplot()
+ax2 = ax.twinx()
 
 ax.set_ylim(0, 60)
 ax2.set_ylim(0, 5000)
+
 width = 0.3
 
-plot_aw = df_for_plot.Awareness.plot(kind = 'bar', color = 'orange', ax = ax, width = width, position = 1)
-plot_se = df_for_plot.Severity.plot(kind = 'bar', color = 'blue', ax = ax2, width = width, position = 0)
+# convert data from df to arrays
+country = []
+for key in dict_for_hist_plot:
+    country.append(key)
+n = df_for_plot.shape[0]
 
+# set data for x, y1, y2
+x = np.arange(len(country))
+y1 = np.zeros(n)
+y2 = np.zeros(n)
+for i in range(n):
+    y1[i] = df_for_plot['Awareness'][i]
+    y2[i] = df_for_plot['Severity'][i]
+
+aw = ax.bar(x - width / 2, y1, color='orange', width=width)
+se = ax2.bar(x + width / 2, y2, color='blue', width=width)
+ax.set_xticks(x)
+ax.set_xticklabels(country)
 ax.set_ylabel('Awareness Gap Days')
 ax2.set_ylabel('Severity Degree')
+ax.legend([aw, se], ['Awareness', 'Severity'])
 
-fig.legend(loc = 'upper center')
-# ax.legend()
-# ax2.legend()
 plt.show()
 
 # Hypothesis_2
