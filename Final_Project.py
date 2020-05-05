@@ -108,11 +108,11 @@ keywords_dict = {'TW':['武漢', '冠狀病毒', '武漢肺炎', '肺炎', '新�
                  'KR':['우한', '코로나바이러스', '우한 폐렴', '폐렴', '신종 코로나바이러스'],
                  'IT': ['Wuhan', 'coronavirus', 'Polmonite di Wuhan', 'Polmonite', 'covid'],
                  'ES': ['Wuhan', 'coronavirus', 'neumonía de Wuhan', 'neumonía', 'covid'],
-                 'CZ': ['Wu-chan', 'koronavirus', 'wuchanský koronavirus', 'zápal plic', 'covid'],
                  'US':['Wuhan', 'coronavirus', 'Wuhan coronavirus', 'pneumonia', 'covid'],
-                 'PE':['Wuhan', 'coronavirus', 'neumonía de Wuhan', 'neumonía', 'covid'],
                  'IR':['ووهان','کروناویروس','ووهان کروناویروس','سینه‌پهلو','کووید'],
+                 'PE':['Wuhan', 'coronavirus', 'neumonía de Wuhan', 'neumonía', 'covid'],
                  'AU':['Wuhan', 'coronavirus', 'Wuhan coronavirus', 'pneumonia','covid'],
+                 'CZ': ['Wu-chan', 'koronavirus', 'wuchanský koronavirus', 'zápal plic', 'covid'],
                  'ZA':['Wuhan', 'coronavirus', 'Wuhan Koronavirus', 'Longontsteking','covid'],
                  'common':['Wuhan', 'coronavirus', 'Wuhan coronavirus', 'pneumonia', 'covid']}
 
@@ -399,7 +399,7 @@ aw = ax.bar(x - width / 2, y1, color='orange', width=width)
 se = ax2.bar(x + width / 2, y2, color='blue', width=width)
 ax.set_xticks(x)
 ax.set_xticklabels(country)
-ax.set_ylabel('Awareness Gap Days')
+ax.set_ylabel('Awareness Level')
 ax2.set_ylabel('Severity Degree')
 ax.legend([aw, se], ['Awareness', 'Severity'])
 
@@ -420,5 +420,5 @@ ax.scatter(x, y)
 for i, txt in enumerate(c):
     ax.annotate(txt, (x[i], y[i]))
 
-plt.xlabel('Population Density\n(people/Km2)')
-plt.ylabel('Severity Degree\n(Confirmed Cases/Million Pople)')
+plt.xlabel('Population Density\n(people / Km2)')
+plt.ylabel('Severity Degree\n(Confirmed Cases / Million Pople)')
