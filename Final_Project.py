@@ -310,6 +310,8 @@ search_peak_dict = find_search_peak_date(multi_google_trends_dict, most_popular_
 
 notable_date_dict = {}
 for key in multi_google_trends_dict:
+    confirmed_case = multi_google_trends_dict[key]['Confirmed Case']
+    notable_date = find_notable_date(confirmed_case)
     notable_date_dict[key] = datetime.strptime(notable_date,'%Y-%m-%d')
 # print(notable_date_dict)
 
