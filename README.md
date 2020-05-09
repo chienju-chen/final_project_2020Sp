@@ -1,6 +1,6 @@
-# final_project
+## final_project
 
-# This project is aiming to explore possible causes for the different severity of COVID-19 pandemic between countries.
+### This project is aiming to explore possible causes for the different severity of COVID-19 pandemic between countries.
 
 We consider people’s awareness and population density as possible factors and study whether they would affect the severity of pandemic between different countries.
 
@@ -11,7 +11,7 @@ The severity of pandemic is defined as the number of confirmed cases per million
 
 
 
-# Hypothesis: 
+### Hypothesis: 
 
 1. For countries that people are aware of COVID-19 earlier,  the pandemic will be less serious.
 
@@ -19,7 +19,7 @@ The severity of pandemic is defined as the number of confirmed cases per million
 
  
 
-# Data Source:
+### Data Source:
 
 COVID-19 confirmed cases：https://github.com/CSSEGISandData/COVID-19
 
