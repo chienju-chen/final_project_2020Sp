@@ -117,7 +117,7 @@ The scatter plot shows the relationship between Population Density and Severity 
 
 * Australia(AU), Iran(IR) and Peru(PE) are shown to be low in both population density and severity degree.
 * Taiwan(TW) and South Korea(KR) are highly populated countries while the severity degree is very low, which could be explained by Hypothesis 1-- both of them are early aware.
-* Italy(IT), Spain(ES) and the United States(US) are how populated countries, however, the pandemic is still severe.
+* Italy(IT), Spain(ES) and the United States(US) are ow populated countries, however, the pandemic is still severe.
 
 
 ### Other Factors
