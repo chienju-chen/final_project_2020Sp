@@ -137,7 +137,7 @@ def find_notable_date(confirmed_case_dict, smooth_window_len=15):
 
     >>> dates = ['2020-01-01','2020-01-02','2020-01-03','2020-01-04','2020-01-05']
     >>> dates_datetime = [datetime.strptime(d,'%Y-%m-%d') for d in dates]
-    >>> confirmed_case_dict = {'TW': pd.DataFrame({'Confirmed Case':[0,2,7,7,10]}, index=dates_datetime)}
+    >>> confirmed_case_dict = {'TW': pd.DataFrame({'Confirmed Case':[0,2,10,11,14]}, index=dates_datetime)}
     >>> notable_date_dict = find_notable_date(confirmed_case_dict,5)
     >>> notable_date_dict.keys()
     dict_keys(['TW'])
