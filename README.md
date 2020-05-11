@@ -122,9 +122,9 @@ The scatter plot shows the relationship between Population Density and Severity 
 
 ### Other Factors
 
-The impact of both Hypothesis 1 and 2 seem to be not very obvious on Czech Republic(CZ) and South Africa(ZA). As a result, we would consider other factors that might affect their pandemic. 
+The impact of both Awareness Level and Severity Degree are not very obvious on Czech Republic(CZ) and South Africa(ZA). As a result, we would consider other factors that might affect their pandemic. 
 
-Czech has relatively high population density and didn’t aware early, but the pandemic seemed to be under well control. One special thing of Czech is its policy from the government to mandatorily ask people to wear masks. “#Masks4all” indeed effectively slowed down the outbreak in Czech.
+Czech has relatively high population density and didn’t aware early, but the pandemic seemed to be under well control. One possible explanation is its policy from the government to mandatorily ask people to wear masks.
 
 For South Africa, basically, the numbers of travel and passengers are low. According to ACI(Airport Council International), the passengers of all the Africa’s airports is only composed 2% of worldwide. 
 
