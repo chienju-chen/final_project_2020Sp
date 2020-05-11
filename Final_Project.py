@@ -13,6 +13,9 @@ Data Source:
 1. COVID-19 confirmed cases：https://github.com/CSSEGISandData/COVID-19
 2. Google Trends：https://trends.google.com/trends/
 3. Countries in the world by population (2020)：https://www.worldometers.info/world-population/population-by-country/
+
+Time Period:
+Jan. 1st, 2020 - Apr. 24th, 2020
 """
 
 # Import Packages
@@ -113,15 +116,51 @@ def plot_KWsearch_case_trends(GT_case_trend, notable_date, country_code):
 
 
 # Find the search peak date for evaluating the awareness level of each country
-def find_search_peak_date(search_trend_dict, most_popular_keywords_dict):
+def find_search_peak_date(search_trend_dict: dict, most_popular_keywords_dict: dict) -> dict:
+    """
+    To decide the date of each country, find the date when the most popular keyword reach its search peak.
+    The return value is in a dictionary type, with country codes as keys and search peak dates as values.
+    :param search_trend_dict: dictionary that stores the search trend from Google Trends
+    :param most_popular_keywords_dict: dictionary that stores the most popular keyword of each country
+    :return: dictionary with country code as keys and search peak date as values
+
+    >>> search_trend_dict_DT = {'TW':'\\ndate\\nWuhan\\n2020-01-01\\n\\n2020-01-02\\n2'}
+    >>> most_popular_keywords_dict_DT = {'TW': 'Wuhan'}
+    >>> find_search_peak_date(search_trend_dict_DT, most_popular_keywords_dict_DT)
+    Traceback (most recent call last):
+    TypeError: string indices must be integers
+    """
     search_peak_dict = {}
     for key in search_trend_dict:
         search_peak_dict[key] = search_trend_dict[key][most_popular_keywords_dict[key]].idxmax()
     return(search_peak_dict)
 
 
-# Severity Degree-- measured in "Confirmed Cases per Million People"
-def popul_density_target_country(filename, country_list_popul, country_dict_popul):
+# Get the population density of target countries for evaluating Hypothesis 2
+def popul_density_target_country(filename: str, country_list_popul: list, country_dict_popul: dict) -> pd.DataFrame:
+    """
+    For Hypothesis 2 that aim to investigate the relationship between population density and severity degree,
+    this function is to get the population density of each country from specific file.
+    :param filename: a string combining file path and file name
+    :param country_list_popul: a list of target country names for extracting population data
+    :param country_dict_popul: a dictionary for referencing different country names in multiple data sources
+    :return: a DataFrame containing country name, density and total number of population
+
+    >>> filename_DT_1 = 'data/Countries in the world by population (2020).csv'
+    >>> country_dict_popul_DT_1 = {'Taiwan*':'Taiwan', 'Korea, South':'South Korea', 'Italy':'Italy'}
+    >>> country_list_popul_DT_1 = list(country_dict_popul_DT_1.values())
+    >>> popul_density_target_country(filename_DT_1, country_dict_popul_DT_1, country_dict_popul_DT_1)
+       Country (or dependency)  Density (P/Km?)  Population (2020)
+    22                   Italy              206           60461826
+    27             South Korea              527           51269185
+    56                  Taiwan              673           23816775
+    >>> filename_DT_2 = 'data/Countries in the world by population (2019).csv'
+    >>> country_dict_popul_DT_2 = {'Taiwan*':'Taiwan'}
+    >>> country_list_popul_DT_2 = list(country_dict_popul_DT_2.values())
+    >>> popul_density_target_country(filename_DT_2, country_dict_popul_DT_2, country_dict_popul_DT_2)
+    Traceback (most recent call last):
+    FileNotFoundError: [Errno 2] File b'data/Countries in the world by population (2019).csv' does not exist: b'data/Countries in the world by population (2019).csv'
+    """
     popul_density = pd.read_csv(filename)
     popul_target = popul_density[popul_density['Country (or dependency)'].isin(country_dict_popul.values())]
     popul_target = popul_target[['Country (or dependency)', 'Density (P/Km?)', 'Population (2020)']]
@@ -213,7 +252,7 @@ if __name__ == '__main__':
         aware_period_in_days[key] = aware_days.days
 
     # ----------------------------------------------------------------------------------------------------------
-    # Extract the population density data of the target countries
+    # Extract the total number of population of the target countries
     filename = 'data/Countries in the world by population (2020).csv'
     country_dict_popul = {'Taiwan*': 'Taiwan', 'Korea, South': 'South Korea', 'Italy': 'Italy',
                           'Spain': 'Spain', 'Czechia': 'Czech Republic (Czechia)', 'US': 'United States',
@@ -221,18 +260,19 @@ if __name__ == '__main__':
     country_list_popul = list(country_dict_popul.values())
     popul_density_target = popul_density_target_country(filename, country_dict_popul, country_dict_popul)
 
-    # Merge confirmed_case_target with popul_density_target
+    # Merge confirmed_case_target with population data to evaluate pandemic severity degree
     popul_density_target.insert(0, "Country/Region",
                                 ["US", "Iran", "Italy", "South Africa", "Korea, South",
                                  "Spain", "Peru", "Australia", "Taiwan*", "Czechia"])
     popul_density_with_c = popul_density_target.merge(confirmed_case_target, left_on="Country/Region",
                                                       right_on="Country/Region")
 
-    # Calculate the pandemic severity degree of each country
+    # Calculate the pandemic severity degree of each country by definition: confirmed cases per million people
+    # The number of total confirmed cases is the last date of our time period: Apr. 24th, 2020
     pandemic_severity = popul_density_with_c['4/24/20'] / popul_density_with_c['Population (2020)'].div(1000000)
     popul_density_with_c.insert(4, "Severity", round(pandemic_severity, 2))
 
-    # Insert the country code of target countries to popul_density_with_c
+    # Insert the country code of target countries as index value
     """
     Reference of adding Column with Dictionary values: 
     https://cmdlinetips.com/2018/01/how-to-add-a-new-column-to-using-a-dictionary-in-pandas-data-frame/
@@ -244,11 +284,10 @@ if __name__ == '__main__':
     (1) pandas.DataFrame.to_dict: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_dict.html
     (2) set_index: https://stackoverflow.com/questions/52547805/how-to-convert-dataframe-to-dictionary-in-pandas-without-index
     """
-    # Extract the country code and severity degree of each country and save as severity_dict
     df_severity = popul_density_with_c[['Country Code', 'Severity']]
     severity_dict = df_severity.set_index('Country Code')['Severity'].to_dict()
 
-    # ...
+    # Create a dictionary with country code as keys to store the awareness level and severity degree of each country
     dict_for_hist_plot = {}
     for i in aware_period_in_days.keys():
         dict_for_hist_plot[i] = (aware_period_in_days[i], severity_dict[i])
@@ -273,13 +312,13 @@ if __name__ == '__main__':
 
     width = 0.3
 
-    # convert data from df to arrays
+    # for plotting purpose, convert data from df to arrays
     country = []
     for key in dict_for_hist_plot:
         country.append(key)
     n = df_for_plot.shape[0]
 
-    # set data for x, y1, y2
+    # for plotting purpose, set data for x, y1, y2
     x = np.arange(len(country))
     y1 = np.zeros(n)
     y2 = np.zeros(n)
@@ -299,7 +338,7 @@ if __name__ == '__main__':
     # ----------------------------------------------------------------------------------------------------------
     # Plot the outcome of Hypothesis 2 into scatter plot
     """
-    Reference of Scatterplot with annotation on each data point:
+    Reference of Scatter Plot with annotation on each data point:
     https://stackoverflow.com/questions/14432557/matplotlib-scatter-plot-with-different-text-at-each-data-point
     """
     x = list(popul_density_with_c['Density (P/Km?)'])
