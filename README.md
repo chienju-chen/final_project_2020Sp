@@ -96,7 +96,7 @@ For a better demonstration of the terms used in this project, we plot the confir
 
 ## Outcome & Analysis
 
-### **Hypothesis 1**
+### Hypothesis 1
 For countries that people are **aware of COVID-19 earlier**, the pandemic will be **less serious**.
 
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/bar_plot_hyp.1.png)
@@ -108,7 +108,7 @@ The bar plot shows the comparison of Awareness Level and Severity Degree of each
 * Italy(IT), Spain(ES) and the United States(US) are the most severe countries with low awareness level.
 
 
-### **Hypothesis 2**
+### Hypothesis 2
 Pandemic will be **more serious** in the countries with a **higher population density**.
 
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/scatter_plot_hyp.2.png)
@@ -119,7 +119,7 @@ The scatter plot shows the relationship between population density and severity 
 * Although Spain(ES) and the United States(US) are low populated, pandemic in these two countries is still serious. 
 * Taiwan(TW) and South Korea(KR) are highly populated countries while the severity degree is very low.
 
-In addition, we noticed that the awareness level of ES and US are both very low while that of TW and KR are really high. Considering the awareness, it might be better to explain the low severity regarding to countries who are inconsistent with Hypothesis 2 by the awareness level.
+In addition, we noticed that the awareness level of Spain(ES) and United States(US) are both very low while that of Taiwan(TW) and Korea(KR) are really high. Considering the awareness, it might be better to explain the low severity regarding to countries who are inconsistent with Hypothesis 2 by the awareness level.
 
 ### Other Factors
 
