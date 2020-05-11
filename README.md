@@ -30,4 +30,5 @@ Countries in the world by population (2020)：https://www.worldometers.info/worl
 NOAA(National Centers for Environmental Information)：https://www.ncdc.noaa.gov/cdo-web/datasets
 
 
-plots/bar_plot_hyp.1.png
+
+![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/bar_plot_hyp.1.png)
