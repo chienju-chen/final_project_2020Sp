@@ -11,7 +11,7 @@ The severity of pandemic is defined as the number of confirmed cases per million
 
 
 
-### Hypothesis: 
+## Hypothesis: 
 
 1. For countries that people are **aware of COVID-19 earlier**,  the pandemic will be **less serious**.
 
@@ -19,7 +19,7 @@ The severity of pandemic is defined as the number of confirmed cases per million
 
  
 
-### Data Source:
+## Data Source:
 
 COVID-19 confirmed cases：https://github.com/CSSEGISandData/COVID-19
 
@@ -31,7 +31,7 @@ NOAA(National Centers for Environmental Information)：https://www.ncdc.noaa.gov
 
 
 
-### Outcome & Analysis
+## Outcome & Analysis
 
 #### **Hypothesis 1**
 For countries that people are **aware of COVID-19 earlier**, the pandemic will be **less serious**.
@@ -65,6 +65,6 @@ For South Africa, basically, the numbers of travel and passengers are low. Accor
 
 
 
-### Conclusion
+## Conclusion
 * Hypothesis 1 & 2 are both relative to the severity of COVID-19 pandemic.
 * Hypothesis 1 is stronger factor and is able to better explain the severity of COVID-19.
