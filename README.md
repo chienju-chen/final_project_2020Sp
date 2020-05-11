@@ -85,13 +85,13 @@ For a better demonstration of the terms used in this project, we plot the confir
 <br>The number of cumulative confirmed cases per million people in a country on Apr. 24th, 2020.
 
 * Notable Date: 
-<br>The date on which the maximum change in the number of daily confirmed cases happens in a country, which is marked as the blue dashed line in the above figure. It represents the point where the pandemic became notable in a country, which we set as the reference point for comparing how early people in different countries were aware of COVID-19.
+<br>The date on which the maximum change in the number of daily confirmed cases happens in a country, which is represented as the blue dashed line in the above figure. It indicates the point where the pandemic became notable in a country, which we set as the reference point for comparing how early people in different countries were aware of COVID-19.
 
 * Keyword Search Peak:
-<br>The point where the highest search popularity among the keywords happens before the notable date, which is marked with the red circle on the above figure. It indicates the timing when a considerable amount of people in a country were aware of COVID-19.
+<br>The point where the highest search popularity among the keywords happens before the notable date, which is represented as the red circle on the above figure. It indicates the timing when a considerable amount of people in a country were aware of COVID-19.
 
 * Awareness Level:
-<br>The number of days after the keyword search peak and before the notable date in a country, which is shown as the gap between the dashed red line and the dashed blue line in the above figure. The wider the gap is, the higher the awareness level is.
+<br>The number of days after the keyword search peak and before the notable date in a country, which is represented as the gap between the dashed red line and the dashed blue line in the above figure. The wider the gap is, the higher the awareness level is.
 
 
 ## Outcome & Analysis
