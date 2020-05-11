@@ -113,11 +113,11 @@ Pandemic will be **more serious** in the countries with a **higher population de
 
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/scatter_plot_hyp.2.png)
 
-The scatter plot shows the relationship between Population Density and Severity Degree of each country. The outcomes of 3 countries (AU, IR, PE) are consistent with Hypothesis 2, while 5 of them (TW, KR, IT, ES, US) are opposite to Hypothesis 2. The left 2 countries (CZ, ZA) are still not obvious in trend and might be affected by other factors.
+The scatter plot shows the relationship between Population Density and Severity Degree of each country. The outcomes of 3 countries (AU, IR, PE) are consistent with Hypothesis 2, while 5 of them (TW, KR, IT, ES, US) are inconsistent. The left 2 countries (CZ, ZA) are still not obvious in trend and might be affected by other factors.
 
 * Australia(AU), Iran(IR) and Peru(PE) are shown to be low in both population density and severity degree.
 * Taiwan(TW) and South Korea(KR) are highly populated countries while the severity degree is very low, which could be explained by Hypothesis 1-- both of them are early aware.
-* Italy(IT), Spain(ES) and the United States(US) are low populated countries, however, the pandemic is still severe.
+* Italy(IT) are highly populated while Spain(ES) and the United States(US) are low populated, but all of them are severe in the pandemic outbreak. The Awareness Level might still play a more important role and better explainable to the Severity Degree.
 
 
 ### Other Factors
