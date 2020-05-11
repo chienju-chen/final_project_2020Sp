@@ -1,4 +1,6 @@
 """
+IS 590PR Final Project - Spring 2020
+
 Project Topic:
 Analysis on how People’s Awareness and Population Density Affect the Severity of COVID-19
 
@@ -14,7 +16,7 @@ Data Source:
 2. Google Trends：https://trends.google.com/trends/
 3. Countries in the world by population (2020)：https://www.worldometers.info/world-population/population-by-country/
 
-Time Period:
+Study Time Period:
 Jan. 1st, 2020 - Apr. 24th, 2020
 """
 
@@ -29,57 +31,148 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
 
-# Extract confirmed case numbers for target countries
 def extract_target_country_case(filename, country_list):
+    """
+    Given the global confirmed cases data and a list of target country names of which we want to study,
+    extract the number of confirmed cases for each target country.
+    :param filename: a string indicating the file name of global confirmed cases data
+    :param country_list: a list containing the target country names of which we want to study
+    :return: a DataFrame containing the target country name and the corresponding daily number of cumulative
+    confirmed cases
+
+    >>> filename = 'data/time_series_covid19_confirmed_global.csv'
+    >>> country_code_dict = {'Taiwan*':'TW', 'Korea, South':'KR', 'Italy':'IT', 'Australia':'AU'}
+    >>> country_list = list(country_code_dict.keys())
+    >>> confirmed_case_target = extract_target_country_case(filename, country_list)
+    >>> confirmed_case_target['Country/Region']
+    0           Italy
+    1    Korea, South
+    2         Taiwan*
+    3       Australia
+    Name: Country/Region, dtype: object
+    >>> confirmed_case_target['4/24/20']
+    0    192994
+    1     10718
+    2       428
+    3      6677
+    Name: 4/24/20, dtype: int64
+    >>> confirmed_case_target.shape
+    (4, 95)
+    """
     covid_all = pd.read_csv(filename)
     covid_target = covid_all[covid_all['Country/Region'].isin(country_list)]
-    covid_target = covid_target.drop(columns=['Province/State','Lat','Long'])
-    # adding up the confirmed case numbers for countires with multiple rows
+    covid_target = covid_target.drop(columns=['Province/State', 'Lat', 'Long'])
+
+    # add up the confirmed case numbers for countries with multiple rows
     for country in country_list:
-        covid_multiple_rows = covid_target[covid_target['Country/Region']==country]
+        covid_multiple_rows = covid_target[covid_target['Country/Region'] == country]
         if covid_multiple_rows.shape[0] > 1:
             covid_target = covid_target.drop(covid_multiple_rows.index)
             covid_single_row = covid_multiple_rows.groupby('Country/Region').sum().reset_index()
-            covid_target = covid_target.append(covid_single_row).reset_index(drop=True)
+            covid_target = covid_target.append(covid_single_row)
         else:
             continue
-    return(covid_target)
+    covid_target = covid_target.reset_index(drop=True)
+    return (covid_target)
 
 
-# Extract search trend of keywords from Google Trends for each target country
 def extract_google_trends(timeframe, keywords_dict):
+    """
+    For Hypothesis 1 that aim to study the relationship between people's awareness of COVID-19 and pandemic
+    severity degree, this function is to extract the search trend of COVID-19 related keywords in each country
+    from Google Trends given a certain timeframe and a dictionary of each target country's keywords.
+    :param timeframe: a string indicating the time period for extracting the keyword search trend from Google Trends
+    :param keywords_dict: a dictionary containing the country code of target countries as keys and the corresponding
+    list of COVID-19 related keywords represented in each country's official language as values
+    :return: a dictionary containing the country code of target countries as keys and the corresponding search trend
+    of COVID-19 related keywords in each country in Dataframe form as values
+
+    >>> timeframe_1 = '2020-01-01 2020-01-10'
+    >>> keywords_dict_1 = {'TW':['武漢', '冠狀病毒'], 'KR':['우한', '코로나바이러스'], 'US':['Wuhan', 'coronavirus']}
+    >>> search_trend_dict = extract_google_trends(timeframe_1, keywords_dict_1)
+    >>> search_trend_dict.keys()
+    dict_keys(['TW', 'KR', 'US'])
+    >>> search_trend_dict['TW'].columns
+    Index(['Wuhan', 'coronavirus'], dtype='object')
+    >>> search_trend_dict['TW'].index # doctest: +ELLIPSIS
+    DatetimeIndex(['2020-01-01', '2020-01-02', ... '2020-01-09', '2020-01-10'],
+                  dtype='datetime64[ns]', name='date', freq=None)
+    >>> search_trend_dict['KR'].shape
+    (10, 2)
+    >>> timeframe_2 = '2020-01-01 2020-01-32'
+    >>> search_trend_dict = extract_google_trends(timeframe_2, keywords_dict_1)
+    Traceback (most recent call last):
+    pytrends.exceptions.ResponseError: The request failed: Google returned a response with code 500.
+    >>> keywords_dict_2 = {'TE':['武漢', '冠狀病毒'], 'KR':['우한', '코로나바이러스'], 'US':['Wuhan', 'coronavirus']}
+    >>> search_trend_dict = extract_google_trends(timeframe_1, keywords_dict_2)
+    Traceback (most recent call last):
+    pytrends.exceptions.ResponseError: The request failed: Google returned a response with code 400.
+    """
     pytrend = TrendReq(hl='en-US', tz=360)
     search_trend_dict = {}
     for key in list(keywords_dict.keys()):
         pytrend.build_payload(kw_list=keywords_dict[key], cat=0, timeframe=timeframe, geo=key)
         df_search_trend = pytrend.interest_over_time().drop(columns=['isPartial'])
-        # rename the columns of df_search_trend to English keywords
+
+        # rename the columns of df_search_trend to keywords in English
         df_search_trend.columns = keywords_dict['US']
         search_trend_dict[key] = df_search_trend
     return(search_trend_dict)
 
 
-# Find the date on which the pandemic becomes notable in each country
 """
-Reference:
+Reference of smoothing: 
 https://plotly.com/python/smoothing/
 """
-def find_notable_date(confirmed_case_dict):
+def find_notable_date(confirmed_case_dict, smooth_window_len=15):
+    """
+    Given the daily number of confirmed cases of target countries, find the date on which COVID-19 pandemic
+    became notable in each country. The notable date is defined as the date on which the maximum change in
+    the number of daily confirmed cases happened.
+    :param confirmed_case_dict: a dictionary containing the country code of target countries as keys and the
+    corresponding COVID-19 daily confirmed cases data in Dataframe form as values
+    :param smooth_window_len: a numeric indicating the window length for smoothing the curve of confirmed cases
+    :return: a dictionary containing the country code of target countries as keys and the corresponding notable
+    date in string form as values
+
+    >>> dates = ['2020-01-01','2020-01-02','2020-01-03','2020-01-04','2020-01-05']
+    >>> dates_datetime = [datetime.strptime(d,'%Y-%m-%d') for d in dates]
+    >>> confirmed_case_dict = {'TW': pd.DataFrame({'Confirmed Case':[0,2,7,7,10]}, index=dates_datetime)}
+    >>> notable_date_dict = find_notable_date(confirmed_case_dict,5)
+    >>> notable_date_dict.keys()
+    dict_keys(['TW'])
+    >>> notable_date_dict['TW']
+    '2020-01-03'
+    """
     notable_date_dict = {}
     for key in confirmed_case_dict:
-        # smooth the confirmed case curve
+        # smooth the confirmed cases curve before finding the notable date to avoid the fluctuations
+        # in the curve leading to an unreasonable notable date
         confirmed_case = confirmed_case_dict[key]['Confirmed Case']
-        confirmed_case_smooth = pd.Series(signal.savgol_filter(confirmed_case, 15, 3), index=confirmed_case.index)
-
+        confirmed_case_smooth = pd.Series(signal.savgol_filter(confirmed_case, smooth_window_len, 3), index=confirmed_case.index)
         # find the notable date with the maximum change in daily increased case
-        daily_case_change_smooth = confirmed_case_smooth - 2 * confirmed_case_smooth.shift(
-            1) + confirmed_case_smooth.shift(2)
+        daily_case_change_smooth = confirmed_case_smooth - 2*confirmed_case_smooth.shift(1) \
+                                   + confirmed_case_smooth.shift(2)
         notable_date_dict[key] = daily_case_change_smooth.idxmax().strftime("%Y-%m-%d")
     return (notable_date_dict)
 
 
-# Plot keyword search trends vs. confirmed cases number over time for each country
+"""
+Reference:
+(1) sns.color_palette: https://seaborn.pydata.org/tutorial/color_palettes.html
+(2) Add boxes on a plot: https://matplotlib.org/3.2.1/gallery/shapes_and_collections/fancybox_demo.html
+(3) matplotlib.dates(mdates): https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series
+                              -data-in-python/date-time-types-in-pandas-python/customize-dates-matplotlib-plots-python/
+"""
 def plot_KWsearch_case_trends(GT_case_trend, notable_date, country_code):
+    """
+    Given the keyword search and confirmed cases trends data, notable date, and country code of a country,
+    plot search trend of each keyword and the confirmed cases number over time for that country on the same plot
+    :param GT_case_trend: a DataFrame containing the keyword search and confirmed cases trends of a country
+    :param notable_date: a string indicating the pandemic notable date of a country
+    :param country_code: a string indicating the country code of a country
+    :return: None
+    """
     t = GT_case_trend.index.values
     confirmed_case = GT_case_trend['Confirmed Case']
 
@@ -93,7 +186,7 @@ def plot_KWsearch_case_trends(GT_case_trend, notable_date, country_code):
     for i in range(len(label)):
         ax1.plot(t, GT_case_trend.iloc[:, i], color=color[i], label=label[i], linewidth=3)
 
-    # plot the number of confirmed cases & the notable date
+    # plot the number of confirmed cases & mark the notable date
     ax2 = ax1.twinx()
     ax2.plot(t, confirmed_case, color='red', label='# of Confirmed Cases', linewidth=5)
     ax2.axvline(notable_date, color='blue', ls='--', lw=3)
@@ -115,7 +208,6 @@ def plot_KWsearch_case_trends(GT_case_trend, notable_date, country_code):
     plt.show()
 
 
-# Find the search peak date for evaluating the awareness level of each country
 def find_search_peak_date(search_trend_dict: dict, most_popular_keywords_dict: dict) -> dict:
     """
     To decide the date of each country, find the date when the most popular keyword reach its search peak.
@@ -124,11 +216,19 @@ def find_search_peak_date(search_trend_dict: dict, most_popular_keywords_dict: d
     :param most_popular_keywords_dict: dictionary that stores the most popular keyword of each country
     :return: dictionary with country code as keys and search peak date as values
 
-    >>> search_trend_dict_DT = {'TW':'\\ndate\\nWuhan\\n2020-01-01\\n\\n2020-01-02\\n2'}
+    >>> dates = ['2020-01-01','2020-01-02','2020-01-03','2020-01-04','2020-01-05']
+    >>> dates_datetime = [datetime.strptime(d,'%Y-%m-%d') for d in dates]
+    >>> search_trend_dict_DT = {'TW': pd.DataFrame({'Wuhan':[0,35,50,95,20], 'coronavirus':[14,43,65,33,56]}, index=dates_datetime)}
     >>> most_popular_keywords_dict_DT = {'TW': 'Wuhan'}
-    >>> find_search_peak_date(search_trend_dict_DT, most_popular_keywords_dict_DT)
-    Traceback (most recent call last):
-    TypeError: string indices must be integers
+    >>> search_peak_dict = find_search_peak_date(search_trend_dict_DT, most_popular_keywords_dict_DT)
+    >>> search_peak_dict['TW']
+    Timestamp('2020-01-04 00:00:00')
+
+    # >>> search_trend_dict_DT = {'TW':'\\ndate\\nWuhan\\n2020-01-01\\n\\n2020-01-02\\n2'}
+    # >>> most_popular_keywords_dict_DT = {'TW': 'Wuhan'}
+    # >>> find_search_peak_date(search_trend_dict_DT, most_popular_keywords_dict_DT)
+    # Traceback (most recent call last):
+    # TypeError: string indices must be integers
     """
     search_peak_dict = {}
     for key in search_trend_dict:
@@ -136,7 +236,6 @@ def find_search_peak_date(search_trend_dict: dict, most_popular_keywords_dict: d
     return(search_peak_dict)
 
 
-# Get the population density of target countries for evaluating Hypothesis 2
 def popul_density_target_country(filename: str, country_list_popul: list, country_dict_popul: dict) -> pd.DataFrame:
     """
     For Hypothesis 2 that aim to investigate the relationship between population density and severity degree,
@@ -170,24 +269,24 @@ def popul_density_target_country(filename: str, country_list_popul: list, countr
 
 if __name__ == '__main__':
     # ----------------------------------------------------------------------------------------------------------
-    # Extract confirmed case numbers for target countries
+    # Extract the number of confirmed cases for each target country
     filename = "data/time_series_covid19_confirmed_global.csv"
     country_code_dict = {'Taiwan*': 'TW', 'Korea, South': 'KR', 'Italy': 'IT', 'Spain': 'ES', 'Czechia': 'CZ',
                          'US': 'US', 'Peru': 'PE', 'Iran': 'IR', 'Australia': 'AU', 'South Africa': 'ZA'}
     country_list = list(country_code_dict.keys())
     confirmed_case_target = extract_target_country_case(filename, country_list)
 
-    # Transpose confirmed_case_target dataframe
+    # Transpose confirmed_case_target for future merge with the search trend of COVID-19 related keywords
     df_country = pd.DataFrame(country_code_dict.items(), columns=['Name', 'Code'])
     confirmed_case_target = pd.merge(confirmed_case_target, df_country, how='left',
                                      left_on='Country/Region', right_on='Name')
     confirmed_case_tr = confirmed_case_target.transpose()
 
-    # set country code as the column names of the transposed dataframe
+    # Set country codes as the column names of the transposed dataframe confirmed_case_tr
     confirmed_case_tr.columns = confirmed_case_tr.loc['Code']
     confirmed_case_tr = confirmed_case_tr.drop(['Country/Region', 'Name', 'Code'])
 
-    # set date as the index of the transposed dataframe
+    # Set date as the index of confirmed_case_tr
     confirmed_case_tr.index = pd.to_datetime(confirmed_case_tr.index)
 
     # ----------------------------------------------------------------------------------------------------------
@@ -209,7 +308,7 @@ if __name__ == '__main__':
     # ----------------------------------------------------------------------------------------------------------
     # Merge confirmed_case_tr with Google Trends extracting results and save the result back to search_trend_dict
     """
-    Reference: 
+    Reference of merging dataframes by index:
     https://thispointer.com/pandas-how-to-merge-dataframes-by-index-using-dataframe-merge-part-3/
     """
     for key in search_trend_dict:
@@ -219,18 +318,11 @@ if __name__ == '__main__':
         search_trend_dict[key] = df_merged.rename(columns={key: "Confirmed Case"})
 
     # ----------------------------------------------------------------------------------------------------------
-    # Find the date on which the pandemic becomes notable in each country
+    # Find the date on which COVID-19 pandemic became notable in each country
     notable_date_dict = find_notable_date(search_trend_dict)
 
     # ----------------------------------------------------------------------------------------------------------
     # Plot keyword search trends vs. confirmed cases number over time for each country
-    """
-    # Reference:
-    # (1) https://seaborn.pydata.org/tutorial/color_palettes.html
-    # (2) https://matplotlib.org/3.2.1/gallery/shapes_and_collections/fancybox_demo.html
-    # (3) https://www.earthdatascience.org/courses/use-data-open-source-python/use-time-series-data-in-python/
-          date-time-types-in-pandas-python/customize-dates-matplotlib-plots-python/
-    """
     for key in search_trend_dict:
         trend = search_trend_dict[key]
         notable_date = notable_date_dict[key]
@@ -247,8 +339,8 @@ if __name__ == '__main__':
     # Calculate and save the awareness level of each country to aware_period_in_days dictionary
     aware_period_in_days = {}
     for key in search_trend_dict:
-        notable_date_datatime = datetime.strptime(notable_date_dict[key], '%Y-%m-%d')
-        aware_days = datetime.date(notable_date_datatime) - datetime.date(search_peak_dict[key])
+        notable_date_datetime = datetime.strptime(notable_date_dict[key], '%Y-%m-%d')
+        aware_days = datetime.date(notable_date_datetime) - datetime.date(search_peak_dict[key])
         aware_period_in_days[key] = aware_days.days
 
     # ----------------------------------------------------------------------------------------------------------
@@ -274,7 +366,7 @@ if __name__ == '__main__':
 
     # Insert the country code of target countries as index value
     """
-    Reference of adding Column with Dictionary values: 
+    Reference of adding column with dictionary values: 
     https://cmdlinetips.com/2018/01/how-to-add-a-new-column-to-using-a-dictionary-in-pandas-data-frame/
     """
     popul_density_with_c.insert(4, "Country Code", popul_density_with_c["Country/Region"].map(country_code_dict))
@@ -296,7 +388,7 @@ if __name__ == '__main__':
     df_for_plot.columns = ['Awareness', 'Severity']
 
     # ----------------------------------------------------------------------------------------------------------
-    # Plot the outcome of Hypothesis 1 (Awareness Level VS. Severity Degree) into bar plot
+    # Plot the outcome of Hypothesis 1 (Awareness Level vs. Severity Degree) into bar plot
     """
     Reference of Double y - axis:
     (1) https://stackoverflow.com/questions/24183101/pandas-bar-plot-with-two-bars-and-two-y-axis
