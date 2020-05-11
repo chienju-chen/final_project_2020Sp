@@ -103,8 +103,8 @@ For countries that people are **aware of COVID-19 earlier**, the pandemic will b
 
 The bar plot shows the comparison of Awareness Level and Severity Degree of each country. Hypothesis 1 is shown to be true for 7 countries (TW, KR, IT, ES, US, IR, PE), while the relationship is not very obvious for 3 other countries (AU, CZ, ZA).
 
-* Taiwan(TW) and South Korea(KR) are the earliest aware countries with slight severity degree.
-* Iran(IR) and Peru(PE) are the 2-tier early aware countries with smooth severity degree.
+* Taiwan(TW) and South Korea(KR) are the earliest aware countries with low severity degree.
+* Iran(IR) and Peru(PE) are the 2-tier early aware countries with medium severity degree.
 * Italy(IT), Spain(ES) and the United States(US) are the most severe countries with low awareness level.
 
 
