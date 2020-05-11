@@ -108,27 +108,28 @@ The bar plot shows the comparison of Awareness Level and Severity Degree of each
 * Italy(IT), Spain(ES) and the United States(US) are the most severe countries with low awareness level.
 
 
-### Hypothesis 2
+### **Hypothesis 2**
 Pandemic will be **more serious** in the countries with a **higher population density**.
 
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/scatter_plot_hyp.2.png)
 
-The scatter plot shows the relationship between Population Density and Severity Degree of each country. The outcomes of 3 countries (AU, IR, PE) are consistent with Hypothesis 2, while 5 of them (TW, KR, IT, ES, US) are inconsistent. The left 2 countries (CZ, ZA) are still not obvious in trend and might be affected by other factors.
+The scatter plot shows the relationship between population density and severity degree of each country. The outcomes of 4 countries (AU, IR, PE, IT) are consistent with Hypothesis 2, while other 4 of them (TW, KR, ES, US) are not. The left 2 countries (CZ, ZA) are still not obvious in trend and might be affected by other factors.
 
-* Australia(AU), Iran(IR) and Peru(PE) are shown to be low in both population density and severity degree.
-* Taiwan(TW) and South Korea(KR) are highly populated countries while the severity degree is very low, which could be explained by Hypothesis 1-- both of them are early aware.
-* Italy(IT) are highly populated while Spain(ES) and the United States(US) are low populated, but all of them are severe in the pandemic outbreak. The Awareness Level might still play a more important role and better explainable to the Severity Degree.
+* Australia(AU), Iran(IR) and Peru(PE) are shown to be low in both population density and severity degree. Italy(IT) is highly populated and also severity in pandemic.
+* Although Spain(ES) and the United States(US) are low populated, pandemic in these two countries is still serious. 
+* Taiwan(TW) and South Korea(KR) are highly populated countries while the severity degree is very low.
 
+In addition, we noticed that the awareness level of ES and US are both very low while that of TW and KR are really high. Considering the awareness, it might be better to explain the low severity regarding to countries who are inconsistent with Hypothesis 2 by the awareness level.
 
 ### Other Factors
 
-The impact of both Awareness Level and Severity Degree are not very obvious on Czech Republic(CZ) and South Africa(ZA). As a result, we would consider other factors that might affect their pandemic. 
+The impact of both awareness level and population density are not very obvious on Czech Republic(CZ) and South Africa(ZA). As a result, we would consider other factors that might affect their pandemic.
 
 Czech has relatively high population density and didn’t aware early, but the pandemic seemed to be under well control. One possible explanation is its policy from the government to mandatorily ask people to wear masks.
 
-For South Africa, basically, the numbers of travel and passengers are low. According to ACI(Airport Council International), the passengers of all the Africa’s airports is only composed 2% of worldwide. 
+For South Africa, basically, the numbers of travel and passengers are low. According to ACI(Airport Council International), the passengers of all the Africa’s airports is only composed 2% of worldwide, which may be the reason for the low severity degree of South Africa.
 
 
 
 ## Conclusion
-According to our analysis, both Hypothesis 1 and 2 are relative to the severity of COVID-19 pandemic. The relationship between Awareness Level and pandemic is stronger than the relationship between Population Density and pandemic. As a result, Hypothesis 1 is stronger factor and is able to better explain the severity of COVID-19.
+According to our analysis, both high awareness level and low population density are relative to a low severity of COVID-19 pandemic. However, the relationship between awareness level and pandemic severity is stronger, which makes us consider awareness level a stronger factor and better explainable to the severity of COVID-19. Therefore, we conclude that both hypotheses are valid, but hypothesis 1 shows a stronger relationship.
