@@ -223,12 +223,6 @@ def find_search_peak_date(search_trend_dict: dict, most_popular_keywords_dict: d
     >>> search_peak_dict = find_search_peak_date(search_trend_dict_DT, most_popular_keywords_dict_DT)
     >>> search_peak_dict['TW']
     Timestamp('2020-01-04 00:00:00')
-
-    # >>> search_trend_dict_DT = {'TW':'\\ndate\\nWuhan\\n2020-01-01\\n\\n2020-01-02\\n2'}
-    # >>> most_popular_keywords_dict_DT = {'TW': 'Wuhan'}
-    # >>> find_search_peak_date(search_trend_dict_DT, most_popular_keywords_dict_DT)
-    # Traceback (most recent call last):
-    # TypeError: string indices must be integers
     """
     search_peak_dict = {}
     for key in search_trend_dict:
@@ -253,12 +247,6 @@ def popul_density_target_country(filename: str, country_list_popul: list, countr
     22                   Italy              206           60461826
     27             South Korea              527           51269185
     56                  Taiwan              673           23816775
-    >>> filename_DT_2 = 'data/Countries in the world by population (2019).csv'
-    >>> country_dict_popul_DT_2 = {'Taiwan*':'Taiwan'}
-    >>> country_list_popul_DT_2 = list(country_dict_popul_DT_2.values())
-    >>> popul_density_target_country(filename_DT_2, country_dict_popul_DT_2, country_dict_popul_DT_2)
-    Traceback (most recent call last):
-    FileNotFoundError: [Errno 2] File b'data/Countries in the world by population (2019).csv' does not exist: b'data/Countries in the world by population (2019).csv'
     """
     popul_density = pd.read_csv(filename)
     popul_target = popul_density[popul_density['Country (or dependency)'].isin(country_dict_popul.values())]
