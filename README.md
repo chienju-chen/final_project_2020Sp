@@ -25,13 +25,11 @@ This project is aiming to explore possible causes for the different severity of 
 
 ## Data Source:
 
-1. GitHub repository of CSEE at Johns Hopkins University (COVID-19 confirmed cases data)： 
-https://github.com/CSSEGISandData/COVID-19
+1. GitHub repository of CSEE at Johns Hopkins University (COVID-19 confirmed cases data)： <br>https://github.com/CSSEGISandData/COVID-19
 
-2. Google Trends (awareness data)：
- https://trends.google.com/trends/
+2. Google Trends (awareness data)：<br>https://trends.google.com/trends/
  
-3. Worldometer (population density data)： https://www.worldometers.info/world-population/population-by-country/
+3. Worldometer (population density data)： <br>https://www.worldometers.info/world-population/population-by-country/
 
 
 ## Method
@@ -58,14 +56,14 @@ The start date, Jan. 1st, 2020, is selected as the day after WHO China Country O
 
 5 keywords are selected for extracting the search trend from Google Trends, which is used for representing people’s awareness of COVID-19. The keywords are listed below with the reason of being selected:
 
-* “Wuhan”, “coronavirus”, and “Wuhan coronavirus”: <br>
-Before WHO announced COVID-19 as its official name, people’s understanding of this disease is that it started from Wuhan, a city in China, and is caused by the coronavirus.
+* “Wuhan”, “coronavirus”, and “Wuhan coronavirus”:
+<br>Before WHO announced COVID-19 as its official name, people’s understanding of this disease is that it started from Wuhan, a city in China, and is caused by the coronavirus.
 
 * “pneumonia”: 
 <br>Most COVID-19 confirmed cases show symptoms of pneumonia. 
 
 * “covid”: 
-Only the alphabetic part of “COVID-19” is used because we found that while some people search the word with a hyphen before the number 19, others search it without a hyphen.
+<br>Only the alphabetic part of “COVID-19” is used because we found that while some people search the word with a hyphen before the number 19, others search it without a hyphen.
 
 The five keywords are translated to the official language of each target country(shown in the following figure) by using Wikipedia. We then search each translated keyword on Google to ensure that it is the actually keyword used for search. 
 
@@ -84,16 +82,16 @@ For a better demonstration of the terms used in this project, we plot the confir
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/Keyword%20Search%20Trends%20_%20Number%20of%20Confirmed%20Cases%20Over%20Time_US.png)
 
 * Severity of Pandemic: 
-The number of cumulative confirmed cases per million people in a country on Apr. 24th, 2020.
+<br>The number of cumulative confirmed cases per million people in a country on Apr. 24th, 2020.
 
 * Notable Date: 
-The date on which the maximum change in the number of daily confirmed cases happens in a country, which is marked as the blue dashed line in the above figure. It represents the point where the pandemic became notable in a country, which we set as the reference point for comparing how early people in different countries were aware of COVID-19.
+<br>The date on which the maximum change in the number of daily confirmed cases happens in a country, which is marked as the blue dashed line in the above figure. It represents the point where the pandemic became notable in a country, which we set as the reference point for comparing how early people in different countries were aware of COVID-19.
 
 * Keyword Search Peak:
-The point where the highest search popularity among the keywords happens before the notable date, which is marked with the red circle on the above figure. It indicates the timing when a considerable amount of people in a country were aware of COVID-19.
+<br>The point where the highest search popularity among the keywords happens before the notable date, which is marked with the red circle on the above figure. It indicates the timing when a considerable amount of people in a country were aware of COVID-19.
 
 * Awareness Level:
-The number of days after the keyword search peak and before the notable date in a country, which is shown as the gap between the dashed red line and the dashed blue line in the above figure. The wider the gap is, the higher the awareness level is.
+<br>The number of days after the keyword search peak and before the notable date in a country, which is shown as the gap between the dashed red line and the dashed blue line in the above figure. The wider the gap is, the higher the awareness level is.
 
 
 ## Outcome & Analysis
