@@ -68,5 +68,4 @@ For South Africa, basically, the numbers of travel and passengers are low. Accor
 
 
 ## Conclusion
-* Hypothesis 1 & 2 are both relative to the severity of COVID-19 pandemic.
-* Hypothesis 1 is stronger factor and is able to better explain the severity of COVID-19.
+According to our analysis, both Hypothesis 1 and 2 are relative to the severity of COVID-19 pandemic. The relationship between Awareness Level and pandemic is stronger than the relationship between Population Density and pandemic. As a result, Hypothesis 1 is stronger factor and is able to better explain the severity of COVID-19.
