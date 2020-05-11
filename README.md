@@ -17,7 +17,7 @@ This project is aiming to explore possible causes for the different severity of 
 
 
 ## Hypothesis
-1. For countries that people are **aware* of COVID-19 earlier**, the pandemic will be **less serious**.
+1. For countries that people are **aware\* of COVID-19 earlier**, the pandemic will be **less serious**.
 2. Pandemic will be **more serious** in the countries with a **higher population density**.
 
 *Assumption: People’s awareness of COVID-19 can be reflected by the search of COVID-19 related keywords on Google, where the search trend for each keyword can be extracted from Google Trends.
