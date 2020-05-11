@@ -40,7 +40,7 @@ The start date, Jan. 1st, 2020, is selected as the day after WHO China Country O
 
 ### Target Country:
 
-10 target countries are picked from 5 continents around the world, including both countries with severe and less severe pandemic for studying the two hypotheses:
+Ten target countries are picked from 5 continents around the world, including both countries with severe and less severe pandemic for studying the two hypotheses:
 * United States
 * Peru
 * Taiwan
@@ -54,7 +54,7 @@ The start date, Jan. 1st, 2020, is selected as the day after WHO China Country O
 
 ### COVID-19 Related Keyword:
 
-5 keywords are selected for extracting the search trend from Google Trends, which is used for representing people’s awareness of COVID-19. The keywords are listed below with the reason of being selected:
+Five keywords are selected for extracting the search trend from Google Trends, which is used for representing people’s awareness of COVID-19. The keywords are listed below with the reason of being selected:
 
 * “Wuhan”, “coronavirus”, and “Wuhan coronavirus”:
 <br>Before WHO announced COVID-19 as its official name, people’s understanding of this disease is that it started from Wuhan, a city in China, and is caused by the coronavirus.
