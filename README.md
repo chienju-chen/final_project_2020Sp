@@ -58,11 +58,11 @@ The start date, Jan. 1st, 2020, is selected as the day after WHO China Country O
 
 5 keywords are selected for extracting the search trend from Google Trends, which is used for representing people’s awareness of COVID-19. The keywords are listed below with the reason of being selected:
 
-* “Wuhan”, “coronavirus”, and “Wuhan coronavirus”: 
+* “Wuhan”, “coronavirus”, and “Wuhan coronavirus”: <br>
 Before WHO announced COVID-19 as its official name, people’s understanding of this disease is that it started from Wuhan, a city in China, and is caused by the coronavirus.
 
 * “pneumonia”: 
-Most COVID-19 confirmed cases show symptoms of pneumonia. 
+<br>Most COVID-19 confirmed cases show symptoms of pneumonia. 
 
 * “covid”: 
 Only the alphabetic part of “COVID-19” is used because we found that while some people search the word with a hyphen before the number 19, others search it without a hyphen.
