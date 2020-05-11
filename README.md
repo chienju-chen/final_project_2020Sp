@@ -13,9 +13,9 @@ The severity of pandemic is defined as the number of confirmed cases per million
 
 ### Hypothesis: 
 
-1. For countries that people are aware of COVID-19 earlier,  the pandemic will be less serious.
+1. For countries that people are **aware of COVID-19 earlier**,  the pandemic will be **less serious**.
 
-2. Pandemic will be more serious in the countries with a higher population density.
+2. Pandemic will be **more serious** in the countries with a **higher population density**.
 
  
 
@@ -30,9 +30,11 @@ Countries in the world by population (2020)：https://www.worldometers.info/worl
 NOAA(National Centers for Environmental Information)：https://www.ncdc.noaa.gov/cdo-web/datasets
 
 
+
 ### Outcome & Analysis
-##### Hypothesis 1
-For countries that people are **aware of COVID-19 earlier**, the pandemic will be less serious.
+
+#### **Hypothesis 1**
+For countries that people are **aware of COVID-19 earlier**, the pandemic will be **less serious**.
 
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/bar_plot_hyp.1.png)
 
@@ -43,8 +45,8 @@ The bar plot shows the comparison of Awareness Level and Severity Degree of each
 * Italy(IT), Spain(ES) and the United States(US) are the most severe countries with low awareness level.
 
 
-##### Hypothesis 2
-Pandemic will be more serious in the countries with a higher population density.
+#### Hypothesis 2
+Pandemic will be **more serious** in the countries with a **higher population density**.
 
 ![image](https://github.com/chienju-chen/final_project_2020Sp/blob/master/plots/scatter_plot_hyp.2.png)
 
@@ -55,7 +57,7 @@ The scatter plot shows the relationship between Population Density and Severity 
 * Italy(IT), Spain(ES) and the United States(US) are how populated countries, however, the pandemic is still severe.
 
 
-##### Other Factors
+#### Other Factors
 
 The impact of both Hypothesis 1 and 2 seem to be not very obvious on Czech Republic(CZ) and South Africa(ZA). As a result, we would consider other factors that might affect their pandemic. 
 Czech has relatively high population density and didn’t aware early, but the pandemic seemed to be under well control. One special thing of Czech is its policy from the government to mandatorily ask people to wear masks. “#Masks4all” indeed effectively slowed down the outbreak in Czech.
