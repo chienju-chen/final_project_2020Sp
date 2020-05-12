@@ -119,7 +119,7 @@ The scatter plot shows the relationship between population density and severity 
 * Although Spain(ES) and the United States(US) are low populated, pandemic in these two countries is still serious. 
 * Taiwan(TW) and South Korea(KR) are highly populated countries while the severity degree is very low.
 
-In addition, we noticed that the awareness level of Spain(ES) and United States(US) are both very low while that of Taiwan(TW) and Korea(KR) are really high. Considering the awareness, it might be better to explain the low severity regarding to countries who are inconsistent with Hypothesis 2 by the awareness level.
+In addition, we noticed that the awareness level of Spain(ES) and United States(US) are both very low while that of Taiwan(TW) and Korea(KR) are really high. For these four countries that are inconsistent with Hypothesis 2, their severity degree can be better explained by the awareness level.
 
 ### Other Factors
 
