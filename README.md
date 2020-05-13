@@ -6,9 +6,12 @@
 Analysis on how People’s Awareness and Population Density Affect the Severity of COVID-19
 
 
-## Team Member
+## Team Member & Contributions to the Project:
 
 Chien-Ju Chen, Yun-Hsuan Chuang (Github ID: chienju-chen, katyyhc)
+* The project topic, method includes target countries, COVID-19 related keywords, definition of terms, and analysis are done by both team members together.
+* Chien-Ju completed 4 functions **extract_target_country_case**, **extract_google_trends**, **find_notable_date**, **plot_KWsearch_case_trends**, and the plot of keyword trend for each country.
+* Yun-Hsuan completed 2 functions **find_search_peak_date**, **popul_density_target_country**, and the bar plot and scatter plot for concluding each Hypothesis.
 
 
 ## Introduction
